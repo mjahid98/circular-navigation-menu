@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <section class="nav-container">
+            <div class="mob-menu-wrap">
+                <ul class="mob-menu">
+                    <li class="mob-menu-item"><a href="#"><span class="item-icon-wrap"><img src="icons/address-card.svg"
+                                    alt="" srcset=""></span><span class="item-text">My Profile</span></a></li>
+                    <li class="mob-menu-item"><a href="#"><span class="item-icon-wrap"><img src="icons/gift.svg" alt=""
+                                    srcset=""></span><span class="item-text">Packages</span></a></li>
+                    <li class="mob-menu-item active"><a href="#"><span class="item-icon-wrap"><img src="icons/shop.svg"
+                                    alt="" srcset=""></span><span class="item-text">Market Place</span></a></li>
+                    <li class="mob-menu-item"><a href="#"><span class="item-icon-wrap"><img src="icons/list.svg" alt=""
+                                    srcset=""></span><span class="item-text">Purchases</span></a></li>
+                    <li class="mob-menu-item"><a href="#"><span class="item-icon-wrap"><img src="icons/envelope.svg"
+                                    alt="" srcset=""></span><span class="item-text">Inbox</span></a></li>
+                    <li class="mob-menu-item"><a href="#"><span class="item-icon-wrap"><img src="icons/wallet.svg"
+                                    alt="" srcset=""></span><span class="item-text">Payment</span></a></li>
+                    <span class="mob-menu-after"></span>
+                </ul>
+            </div>
+        </section>
+    </header>
+    <script>
+        let navContainer = document.querySelector('.nav-container')
+        let mobMenu = document.querySelector('.mob-menu')
+        let mobMenuItems = document.querySelectorAll('.mob-menu .mob-menu-item')
+        let viewportWidth = window.innerWidth;
+        let translatePixel = viewportWidth * 0.85
+
+        mobMenuItems.forEach((n, index) => {
+            // n.style.transform = `rotate(calc(${index} * (360deg / 22))) translate(370px)`
+            n.style.transform = `rotate(calc(${index} * (360deg / 20))) translate(${translatePixel}px)`
+        })
+
+
+        // rotation
+
+
+
+        // Select the text you want to make it circular
+        // const text = document.querySelector(".circular-text .text")
+
+        // Make the selected text circler with CircleType
+        // you can find the full docs here: https://circletype.labwire.ca/
+
+        let circleRadius = 2 * Math.PI * (mobMenu.offsetWidth / 2);
+        // const rotate = new CircleType(text).radius(65)
+
+        console.log(circleRadius);
+        // navContainer.style.height = circleRadius + 'px'
+        navContainer.style.height = circleRadius + 'px'
+        // Add a scroll listener to the window object and rotate the selected text according to the scroll
+        // we used * 0.15 to make the rotation looks smoother
+        window.addEventListener("scroll", function () {
+            // if (window.scrollY * -0.15 >= -83 && window.scrollY * -0.15 <= 0) {
+
+            //     mobMenu.style.transform = `translateX(-90%) rotate(${(window.scrollY * -0.15)}deg)`;
+            // }
+
+
+
+            function getAngle(el) {
+
+// var el = document.getElementById("thing");
+var st = window.getComputedStyle(el, null);
+var tr = st.getPropertyValue("-webkit-transform") ||
+    st.getPropertyValue("-moz-transform") ||
+    st.getPropertyValue("-ms-transform") ||
+    st.getPropertyValue("-o-transform") ||
+    st.getPropertyValue("transform") ||
+    "FAIL";
+
+// With rotate(30deg)...
+// matrix(0.866025, 0.5, -0.5, 0.866025, 0px, 0px)
+console.log('Matrix: ' + tr);
+
+// rotation matrix - http://en.wikipedia.org/wiki/Rotation_matrix
+
+var values = tr.split('(')[1].split(')')[0].split(',');
+var a = values[0];
+var b = values[1];
+var c = values[2];
+var d = values[3];
+
+var scale = Math.sqrt(a * a + b * b);
+
+// console.log('Scale: ' + scale);
+
+// arc sin, convert from radians to degrees, round
+var sin = b / scale;
+// next line works for 30deg but not 130deg (returns 50);
+// var angle = Math.round(Math.asin(sin) * (180/Math.PI));
+var angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
+
+// console.log('Rotate: ' + angle + 'deg');
+return angle
+
+}
+
+
+
+            console.log(window.scrollY)
+            if (getAngle(mobMenu) >= -90) {
+                mobMenu.style.transform = `translateX(-90%) rotate(${Math.round(window.scrollY * -0.15)}deg)`;
+            }
+            console.log('scrolled')
+        })
+
+    </script>
+</body>
+
+</html>
