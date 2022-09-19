@@ -40,7 +40,7 @@ body {
     position: relative;
     border-radius: 51%;
     transform: translateX(-90%) rotate(0deg);
-    transition: all 0.3s ease-out;
+    transition: all 0.3s ease;
 }
 
 .mob-menu::before {
