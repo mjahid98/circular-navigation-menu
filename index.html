@@ -13,6 +13,13 @@
     <header>
         <section class="nav-container">
             <div class="mob-menu-wrap">
+                <div id="rect">
+                    <div class="aro-icon">
+                        <a href="#">
+                            <img src="icons/sd-right-arrow.svg" alt="" srcset="">
+                        </a>
+                    </div>
+                </div>
                 <ul class="mob-menu open">
                     <li class="mob-menu-item">
                         <span class="after"></span>
@@ -41,11 +48,52 @@
         let mobMenuItems = document.querySelectorAll('.mob-menu .mob-menu-item')
         let viewportWidth = window.innerWidth;
         let viewportHeight = window.innerHeight;
+
+        var rect = document.querySelector(".remob-menu-wrapct");
+
+        var dragMe;
         // let translatePixel = viewportWidth * 0.85
         let translatePixel = mobMenu.offsetWidth * .85;
 
         // var rectMobMenuItem = document.querySelector('.mob-menu-item').getBoundingClientRect();
 
+        function getAngle(el) {
+
+            // var el = document.getElementById("thing");
+            var st = window.getComputedStyle(el, null);
+            var tr = st.getPropertyValue("-webkit-transform") ||
+                st.getPropertyValue("-moz-transform") ||
+                st.getPropertyValue("-ms-transform") ||
+                st.getPropertyValue("-o-transform") ||
+                st.getPropertyValue("transform") ||
+                "FAIL";
+
+            // With rotate(30deg)...
+            // matrix(0.866025, 0.5, -0.5, 0.866025, 0px, 0px)
+            // console.log('Matrix: ' + tr);
+
+            // rotation matrix - http://en.wikipedia.org/wiki/Rotation_matrix
+
+            var values = tr.split('(')[1].split(')')[0].split(',');
+            var a = values[0];
+            var b = values[1];
+            var c = values[2];
+            var d = values[3];
+
+            var scale = Math.sqrt(a * a + b * b);
+
+            // console.log('Scale: ' + scale);
+
+            // arc sin, convert from radians to degrees, round
+            var sin = b / scale;
+            // next line works for 30deg but not 130deg (returns 50);
+            // var angle = Math.round(Math.asin(sin) * (180/Math.PI));
+            var angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
+
+            // console.log('Rotate: ' + angle + 'deg');
+            return angle
+
+        }
 
 
         // distance between circle center and menu item
@@ -69,9 +117,19 @@
 
         })
 
+        
         mobMenuItems.forEach((n, index) => {
             // n.style.transform = `rotate(calc(${index} * (360deg / 22))) translate(370px)`
             n.style.transform = `rotate(calc(${index} * (360deg / 20))) translate(${translatePixel}px)`
+
+            // collision detection start
+            // dragMe = n;
+
+            // collision detection end
+
+            // console.log(isCollapsed(n, navContainer))
+
+
         })
 
 
@@ -86,10 +144,11 @@
         // you can find the full docs here: https://circletype.labwire.ca/
 
         // let circleRadius = 2 * Math.PI * ((mobMenu.offsetWidth) / 2);
-        let circleRadius = 2 * Math.PI * (444.689 / 2);
+        // let circleRadius = 2 * Math.PI * (444.689 / 2);
+        let circleRadius = 2 * Math.PI * (500 / 2);
         // const rotate = new CircleType(text).radius(65)
 
-        console.log(circleRadius);
+        // console.log(circleRadius);
         // navContainer.style.height = circleRadius + 'px'
         // navContainer.style.height = circleRadius + 'px'
         // navContainer.style.height = viewportHeight * 1.9 + 'px'
@@ -103,56 +162,53 @@
             // }
 
 
+            // collision detection start
+            // function isCollapsed(dragMe, rect) {
+            //     var object_1 = dragMe.getBoundingClientRect();
+            //     var object_2 = rect.getBoundingClientRect();
 
+            //     if (object_1.left < object_2.left + object_2.width && object_1.left + object_1.width > object_2.left &&
+            //         object_1.top < object_2.top + object_2.height && object_1.top + object_1.height > object_2.top) {
+            //         rect.classList.add("collide");
+            //     }
+            //     else {
+            //         rect.classList.remove("collide");
+            //     }
+            // }
 
-            function getAngle(el) {
+            // collision detection end
 
-                // var el = document.getElementById("thing");
-                var st = window.getComputedStyle(el, null);
-                var tr = st.getPropertyValue("-webkit-transform") ||
-                    st.getPropertyValue("-moz-transform") ||
-                    st.getPropertyValue("-ms-transform") ||
-                    st.getPropertyValue("-o-transform") ||
-                    st.getPropertyValue("transform") ||
-                    "FAIL";
-
-                // With rotate(30deg)...
-                // matrix(0.866025, 0.5, -0.5, 0.866025, 0px, 0px)
-                console.log('Matrix: ' + tr);
-
-                // rotation matrix - http://en.wikipedia.org/wiki/Rotation_matrix
-
-                var values = tr.split('(')[1].split(')')[0].split(',');
-                var a = values[0];
-                var b = values[1];
-                var c = values[2];
-                var d = values[3];
-
-                var scale = Math.sqrt(a * a + b * b);
-
-                // console.log('Scale: ' + scale);
-
-                // arc sin, convert from radians to degrees, round
-                var sin = b / scale;
-                // next line works for 30deg but not 130deg (returns 50);
-                // var angle = Math.round(Math.asin(sin) * (180/Math.PI));
-                var angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
-
-                // console.log('Rotate: ' + angle + 'deg');
-                return angle
-
-            }
+            // console.log(isCollapsed())
 
 
 
-            console.log(window.scrollY)
+
+            // console.log(window.scrollY)
             mobMenu.style.transform = `translateX(-90%) rotate(${Math.round(window.scrollY * -0.13)}deg)`;
             if (document.documentElement.scrollTop > 600)
                 mobMenu.style.transform = `translateX(-90%) rotate(-90deg)`;
 
-            console.log('scrolled')
-        })
+            // console.log('scrolled')
 
+
+
+        });
+
+        //         mobMenu.addEventListener('transitionend', (event) => {
+
+        // if (getAngle(mobMenu) > -100 && getAngle(mobMenu) < -75) {
+        //     mobMenuItems.forEach(item => { item.classList.remove('active') })
+        //     mobMenuItems[5].classList.add('active')
+        // }
+        // if (getAngle(mobMenu) > -75 && getAngle(mobMenu) < -60) {
+        //     mobMenuItems.forEach(item => { item.classList.remove('active') })
+        //     mobMenuItems[4].classList.add('active')
+        // }
+        // if (getAngle(mobMenu) > -60 && getAngle(mobMenu) < -45) {
+        //     mobMenuItems.forEach(item => { item.classList.remove('active') })
+        //     mobMenuItems[3].classList.add('active')
+        // }
+        // });
         // scrollStop function 
         function scrollStop(callback, refresh = 66) {
 
@@ -175,12 +231,80 @@
 
         }
 
+
+        // mobMenu.addEventListener('transitionend', (event) => {
+        //     console.log('transition ended');
+        //     function angle(cx, cy, ex, ey) {
+        //         var dy = ey - cy;
+        //         var dx = ex - cx;
+        //         var theta = Math.atan2(dy, dx); // range (-PI, PI]
+        //         theta *= 180 / Math.PI; // rads to degs, range (-180, 180]
+        //         //if (theta < 0) theta = 360 + theta; // range [0, 360)
+        //         return theta;
+        //     }
+
+        //     mobMenuItems.forEach((n, index) => {
+        //         // n.style.transform = `rotate(calc(${index} * (360deg / 22))) translate(370px)`
+        //         let nx = n.getBoundingClientRect().x;
+        //         let ny = n.getBoundingClientRect().y;
+        //         let ncx = document.querySelector('.mob-menu-after').getBoundingClientRect().x;
+        //         let ncy = document.querySelector('.mob-menu-after').getBoundingClientRect().y;
+        //         let na = angle(ncx, ncy, nx, ny)
+        //         n.classList.remove('active')
+
+        //         if (na >= 10 && na <= -10) {
+        //             n.classList.add('active')
+        //             console.log('the angle', n, na)
+        //         }
+        //         // n.style.transform = `rotate(calc(${index} * (360deg / 20))) translate(${translatePixel}px)`
+        //     })
+
+        //     // if (getAngle(mobMenu) > -100 && getAngle(mobMenu) < -75){
+        //     //     mobMenuItems.forEach(item => {item.classList.remove('active')})
+        //     //     mobMenuItems[0].classList.add('active')
+        //     // }
+        // });
+
+
         scrollStop(function () {
-            console.log('Scrolling has stopped.');
+            // console.log('Scrolling has stopped.', document.documentElement.scrollTop);
+
+            // function angle(cx, cy, ex, ey) {
+            //     var dy = ey - cy;
+            //     var dx = ex - cx;
+            //     var theta = Math.atan2(dy, dx); // range (-PI, PI]
+            //     theta *= 180 / Math.PI; // rads to degs, range (-180, 180]
+            //     //if (theta < 0) theta = 360 + theta; // range [0, 360)
+            //     return theta;
+            // }
+
+            // mobMenuItems.forEach((n, index) => {
+            //     // n.style.transform = `rotate(calc(${index} * (360deg / 22))) translate(370px)`
+            //     nx = n.getBoundingClientRect().x;
+            //     ny = n.getBoundingClientRect().y;
+            //     ncx = document.querySelector('.mob-menu-after').getBoundingClientRect().x; 
+            //     ncy = document.querySelector('.mob-menu-after').getBoundingClientRect().y; 
+            //     let na = angle(ncx,ncy, nx, ny) 
+            //     // console.log('the angle', n, na)
+            //     n.classList.remove('active')
+
+            //     if(na <= 6 && na >= -6 ){
+            //         n.classList.add('active')
+            //     }
+            //     // n.style.transform = `rotate(calc(${index} * (360deg / 20))) translate(${translatePixel}px)`
+            // })
+
+            // if (getAngle(mobMenu) > -100 && getAngle(mobMenu) < -75){
+            //     mobMenuItems.forEach(item => {item.classList.remove('active')})
+            //     mobMenuItems[0].classList.add('active')
+            // }
+
 
         });
 
     </script>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="collision-detect-jquery.js"></script>
 </body>
 
 </html>
