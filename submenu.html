@@ -12,50 +12,56 @@
 <body>
     <header>
         <section class="nav-container">
-            <div class="mob-menu-wrap">
+            <div class="mob-submenu-wrap">
                 <div id="rect">
-                    <div class="aro-icon">
+                    <!-- <div class="aro-icon">
                         <a href="#">
                             <img src="icons/sd-right-arrow.svg" alt="" srcset="">
                         </a>
-                    </div>
+                    </div> -->
                 </div>
-                <ul class="mob-menu open">
-                    <li class="mob-menu-item">
+                <ul class="mob-submenu open">
+                    <li class="mob-submenu-item">
                         <span class="after"></span>
-                        <a href="#"><span class="item-icon-wrap"><img src="icons/address-card.svg" alt=""
-                                    srcset=""></span><span class="item-text">My Profile</span></a>
+                        <a href="#"><span class="item-icon-wrap"><img src="icons/hotels.svg" alt=""
+                                    srcset=""></span><span class="item-text">Hotels</span></a>
                     </li>
-                    <li class="mob-menu-item"><a href="#"><span class="item-icon-wrap"><img src="icons/gift.svg" alt=""
-                                    srcset=""></span><span class="item-text">Packages</span></a></li>
-                    <li class="mob-menu-item active"><a href="submenu.html"><span class="item-icon-wrap"><img src="icons/shop.svg"
-                                    alt="" srcset=""></span><span class="item-text">Market Place</span></a></li>
-                    <li class="mob-menu-item"><a href="#"><span class="item-icon-wrap"><img src="icons/list.svg" alt=""
-                                    srcset=""></span><span class="item-text">Purchases</span></a></li>
-                    <li class="mob-menu-item"><a href="#"><span class="item-icon-wrap"><img src="icons/envelope.svg"
-                                    alt="" srcset=""></span><span class="item-text">Inbox</span></a></li>
-                    <li class="mob-menu-item"><a href="#"><span class="item-icon-wrap"><img src="icons/wallet.svg"
-                                    alt="" srcset=""></span><span class="item-text">Payment</span></a></li>
-                    <span class="mob-menu-after"></span>
+                    <li class="mob-submenu-item"><a href="#"><span class="item-icon-wrap"><img src="icons/food.svg" alt=""
+                                    srcset=""></span><span class="item-text">Subsistence</span></a></li>
+                    <li class="mob-submenu-item active"><a href="#"><span class="item-icon-wrap"><img
+                                    src="icons/transport.svg" alt="" srcset=""></span><span
+                                class="item-text">Transportation</span></a></li>
+                    <li class="mob-submenu-item"><a href="#"><span class="item-icon-wrap"><img
+                                    src="icons/money-transfer.svg" alt="" srcset=""></span><span class="item-text">Money
+                                transfer</span></a></li>
+                    <li class="mob-submenu-item"><a href="#"><span class="item-icon-wrap"><img src="icons/packages.svg"
+                                    alt="" srcset=""></span><span class="item-text">Full packages</span></a></li>
+                    <li class="mob-submenu-item"><a href="#"><span class="item-icon-wrap"><img src="icons/passport.svg"
+                                    alt="" srcset=""></span><span class="item-text">Visa</span></a></li>
+                    <span class="mob-submenu-after"></span>
                 </ul>
+                <div class="parent-item">
+                    <img class="icon" src="icons/shop-p.svg" alt="">
+                    <div class="text">Market Place</div>
+                </div>
             </div>
         </section>
     </header>
     <script>
         let navContainer = document.querySelector('.nav-container')
-        let mobMenu = document.querySelector('.mob-menu.open')
-        let mobMenuItem = document.querySelector('.mob-menu .mob-menu-item')
-        let mobMenuItems = document.querySelectorAll('.mob-menu .mob-menu-item')
+        let mobMenu = document.querySelector('.mob-submenu.open')
+        let mobMenuItem = document.querySelector('.mob-submenu .mob-submenu-item')
+        let mobMenuItems = document.querySelectorAll('.mob-submenu .mob-submenu-item')
         let viewportWidth = window.innerWidth;
         let viewportHeight = window.innerHeight;
 
-        var rect = document.querySelector(".remob-menu-wrapct");
+        var rect = document.querySelector(".remob-submenu-wrapct");
 
         var dragMe;
         // let translatePixel = viewportWidth * 0.85
-        let translatePixel = mobMenu.offsetWidth * .85;
+        let translatePixel = mobMenu.offsetWidth * .80;
 
-        // var rectMobMenuItem = document.querySelector('.mob-menu-item').getBoundingClientRect();
+        // var rectMobMenuItem = document.querySelector('.mob-submenu-item').getBoundingClientRect();
 
         function getAngle(el) {
 
@@ -106,21 +112,21 @@
         }
         window.addEventListener('load', function () {
 
-            // var rectMobMenu = document.querySelector('.mob-menu-after').getBoundingClientRect();
-            // var rectMobMenuItem = document.querySelector('.mob-menu-item').getBoundingClientRect();
+            // var rectMobMenu = document.querySelector('.mob-submenu-after').getBoundingClientRect();
+            // var rectMobMenuItem = document.querySelector('.mob-submenu-item').getBoundingClientRect();
 
             // console.log('distance', getDistance(rectMobMenu.x, rectMobMenu.y, rectMobMenuItem.x, rectMobMenuItem.y));
 
             if (mobMenu) {
-                document.documentElement.scrollTop = 201.3333
+                document.documentElement.scrollTop = 348
             }
 
         })
 
-        
+
         mobMenuItems.forEach((n, index) => {
             // n.style.transform = `rotate(calc(${index} * (360deg / 22))) translate(370px)`
-            n.style.transform = `rotate(calc(${index} * (360deg / 20))) translate(${translatePixel}px)`
+            n.style.transform = `rotate(calc(${index} * (360deg / 20))) translate(${translatePixel}px) rotate(calc(-${index} * (360deg / 20)))`
 
             // collision detection start
             // dragMe = n;
@@ -182,14 +188,29 @@
 
 
 
+            // main menu rotation on scroll
 
             // console.log(window.scrollY)
-            mobMenu.style.transform = `translateX(-90%) rotate(${Math.round(window.scrollY * -0.13)}deg)`;
+            mobMenu.style.transform = `translateX(-65%) rotate(${Math.round(window.scrollY * -0.13)}deg)`;
             if (document.documentElement.scrollTop > 600)
-                mobMenu.style.transform = `translateX(-90%) rotate(-90deg)`;
+                mobMenu.style.transform = `translateX(-65%) rotate(-90deg)`;
 
             // console.log('scrolled')
 
+            mobMenuItems.forEach((n, index) => {
+                // n.style.transform = `rotate(calc(${index} * (360deg / 22))) translate(370px)`
+                n.style.transform = `rotate(calc(${index} * (360deg / 20))) translate(${translatePixel}px) rotate(calc(-${index} * (360deg / 20) - ${Math.round(window.scrollY * -0.13)}deg ))`
+                // transform: rotate(calc(36deg)) translate(340px) rotate(calc(-36deg + 30deg));
+                if (document.documentElement.scrollTop > 600)
+                n.style.transform = `rotate(calc(${index} * (360deg / 20))) translate(${translatePixel}px) rotate(calc(-${index} * (360deg / 20) - ${-90}deg ))`
+
+                // collision detection start
+                // dragMe = n;
+
+                // collision detection end
+
+                // console.log(isCollapsed(n, navContainer))
+            })
 
 
         });
@@ -247,8 +268,8 @@
         //         // n.style.transform = `rotate(calc(${index} * (360deg / 22))) translate(370px)`
         //         let nx = n.getBoundingClientRect().x;
         //         let ny = n.getBoundingClientRect().y;
-        //         let ncx = document.querySelector('.mob-menu-after').getBoundingClientRect().x;
-        //         let ncy = document.querySelector('.mob-menu-after').getBoundingClientRect().y;
+        //         let ncx = document.querySelector('.mob-submenu-after').getBoundingClientRect().x;
+        //         let ncy = document.querySelector('.mob-submenu-after').getBoundingClientRect().y;
         //         let na = angle(ncx, ncy, nx, ny)
         //         n.classList.remove('active')
 
@@ -282,8 +303,8 @@
             //     // n.style.transform = `rotate(calc(${index} * (360deg / 22))) translate(370px)`
             //     nx = n.getBoundingClientRect().x;
             //     ny = n.getBoundingClientRect().y;
-            //     ncx = document.querySelector('.mob-menu-after').getBoundingClientRect().x; 
-            //     ncy = document.querySelector('.mob-menu-after').getBoundingClientRect().y; 
+            //     ncx = document.querySelector('.mob-submenu-after').getBoundingClientRect().x; 
+            //     ncy = document.querySelector('.mob-submenu-after').getBoundingClientRect().y; 
             //     let na = angle(ncx,ncy, nx, ny) 
             //     // console.log('the angle', n, na)
             //     n.classList.remove('active')
@@ -303,7 +324,8 @@
         });
 
     </script>
-<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="collision-detect-jquery.js"></script>
 </body>
 
